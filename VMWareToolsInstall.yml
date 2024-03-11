@@ -1,0 +1,23 @@
+---
+- name: Install VMWare Tools
+  hosts: RHEL
+  tasks:
+    - name: Copy TAR file to writable dir
+      ansible.builtin.copy:
+        src: #Insert file location here
+        dest: #Insert destination for file here
+        owner: #Insert owner here
+        group: #Insert group here
+        mode: '750'
+        state: file
+    - name: Unpack TAR file
+      ansible.builtin.unarchive:
+        src: #Path to file
+        dest: #Path you want to unpack to
+    - name: Install VMWare tools
+      community.general.expect:
+        command: #Path to install file
+        responses:
+          ".*": "\n"  # Match any prompt and provide a newline as the default response
+        timeout: 30
+      become: true
