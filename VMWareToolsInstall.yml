@@ -17,9 +17,6 @@
         dest: /tmp/
 
     - name: Install VMWare tools
-      community.general.expect:
-        command: /tmp/vmware-tools-distrib/vmware-install.pl
-        responses:
-          ".*": "\n"  # Match any prompt and provide a newline as the default response
-        timeout: 30
+      ansible.builtin.command:
+        cmd: /tmp/vmware-tools-distrib/vmware-install.pl --default
       become: true
