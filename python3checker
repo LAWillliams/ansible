@@ -1,0 +1,22 @@
+---
+- name: Python Version Check
+  hosts: RHEL
+  become: true
+  tasks:
+    - name: Verify that Python version 3 is installed
+      ansible.builtin.package:
+        name: "python3"
+        state: present
+        register: pkg_chk
+        check_mode: true
+    
+    - name: Print results
+      debug:
+        msg: "Python3 is installed"
+      when: pkg_chk is succeeded
+    
+    - name: Install python3 if not installed
+      ansible.builtin.package:
+        name: "python3"
+        state: present
+        when: pkg_chk is failed
