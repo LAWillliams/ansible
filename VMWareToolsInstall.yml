@@ -17,6 +17,15 @@
         dest: /tmp/
 
     - name: Install VMWare tools
-      ansible.builtin.command:
-        cmd: /tmp/vmware-tools-distrib/vmware-install.pl --default
+      expect:
+        command: /tmp/vmware-tools-distrib/vmware-install.pl
+        responses:
+          "Accept EULA \\(yes/no\\)": "yes"
+          "default \\(yes/no\\)": "yes"
+          "Perform USB arbitration \\(yes/no\\)": "no"
+          "Do you want to enable Guest Authentication \\(vgauth\\) \\(yes/no\\)": "no"
+          "Disable it now \\(yes/no\\)": "no"
+          "\\(yes/no\\)": "yes"
+        timeout: 300
       become: true
+
